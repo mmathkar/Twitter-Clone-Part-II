@@ -3,6 +3,7 @@ defmodule Project5Web.UserSocket do
 
   ## Channels
   # channel "room:*", Project5Web.RoomChannel
+  channel "lobby", Chatroom.LobbyChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

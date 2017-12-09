@@ -52,7 +52,7 @@ config :phoenix, :stacktrace_depth, 20
 config :project5, Project5.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
+  password: "123456",
   database: "project5_dev",
   hostname: "localhost",
   pool_size: 10
