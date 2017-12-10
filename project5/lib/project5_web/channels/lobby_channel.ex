@@ -56,17 +56,17 @@ defmodule Chatroom.LobbyChannel do
       {content, hashtags, mentions} = tweetBody
 
       # insert into tweetsDB get size - index / key. insert value mei tuple.
-      Simulator.log("TweetID: #{nextID} => #{username} posted a new tweet : #{content}")
+      Simulator.log("TweetID: #{123} => #{username} posted a new tweet : #{content}")
       # TweetID #{nextID} => 
       # index = Kernel.map_size(tweetsDB)
-      spawn(fn->:ets.insert(:tweetsDB, {nextID, username, content})end)
+      spawn(fn->:ets.insert(:tweetsDB, {123, username, content})end)
       # tweetsDB = Map.put(tweetsDB, index, {username, content})
-      spawn(fn -> updateMentionsMap(mentions, nextID) end)
-      spawn(fn -> updateHashTagMap(hashtags, nextID) end)
+      spawn(fn -> updateMentionsMap(mentions, 123) end)
+      spawn(fn -> updateHashTagMap(hashtags, 123) end)
       
       #broadcast 
-      spawn(fn->sendToFollowers(MapSet.to_list(elem(List.first(:ets.lookup(:followersTable, username)), 1)), nextID, username, content) end)
-      spawn(fn->sendToFollowers(mentions, nextID, username, content) end)
+      spawn(fn->sendToFollowers(MapSet.to_list(elem(List.first(:ets.lookup(:followersTable, username)), 1)), 123, username, content) end)
+      spawn(fn->sendToFollowers(mentions, 123, username, content) end)
 
       broadcast! socket, "tweet", payload
       {:noreply, socket}
@@ -77,7 +77,7 @@ defmodule Chatroom.LobbyChannel do
       tweetIndex = Map.get(payload, "tweetIndex")
       
       [{_, original_tweeter, content}] = :ets.lookup(:tweetsDB, tweetIndex)
-      Simulator.log("TweetID: #{nextID} => #{username} posted a retweet of tweetID #{tweetIndex}")
+      Simulator.log("TweetID: #{123} => #{username} posted a retweet of tweetID #{tweetIndex}")
       {org_tweeter, contentfinal} = 
       if is_tuple(content) do 
             {org_tweet, org_content} = content
@@ -88,13 +88,13 @@ defmodule Chatroom.LobbyChannel do
       
       # index = Kernel.map_size(tweetsDB)
       # tweetsDB = Map.put(tweetsDB, nextID, {username, {original_tweeter, content}})
-      :ets.insert_new(:tweetsDB, {nextID, username, {org_tweeter, contentfinal}})
+      :ets.insert_new(:tweetsDB, {123, username, {org_tweeter, contentfinal}})
 
       #mentionsMap = updateMentionsMap(mentionsMap, mentions, index)
       #hashtagMap = updateHashTagMap(hashtagMap, hashtags, index)
     #   IO.inspect tweetsDB
       #broadcast 
-      spawn(fn -> sendToFollowers(MapSet.to_list(elem(List.first(:ets.lookup(:followersTable, username)), 1)), nextID, username, {original_tweeter, content})end)
+      spawn(fn -> sendToFollowers(MapSet.to_list(elem(List.first(:ets.lookup(:followersTable, username)), 1)), 123, username, {original_tweeter, content})end)
       
       broadcast! socket, "reTweet", payload
       {:noreply, socket}
@@ -254,5 +254,3 @@ end
 
 
 
-
-end
