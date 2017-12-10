@@ -47,6 +47,14 @@ defmodule Project5Web.Endpoint do
   configuration should be loaded from the system environment.
   """
   def init(_key, config) do
+
+      :ets.new(:hashtagMap, [:set, :public, :named_table])
+      :ets.new(:mentionsMap, [:set, :public, :named_table])
+      :ets.new(:followersTable, [:set, :public, :named_table])
+      :ets.new(:followsTable, [:set, :public, :named_table])
+      :ets.new(:tweetsDB, [:set, :public, :named_table])
+      :ets.new(:userToIPMap, [:set, :public, :named_table])
+
     if config[:load_from_system_env] do
       port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
       {:ok, Keyword.put(config, :http, [:inet6, port: port])}
