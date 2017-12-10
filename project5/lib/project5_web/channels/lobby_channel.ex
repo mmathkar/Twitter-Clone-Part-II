@@ -36,6 +36,7 @@ defmodule Chatroom.LobbyChannel do
     {:noreply, socket}
   end
 
+<<<<<<< Updated upstream
   def handle_in("registerMe", payload, socket) do
       username = Map.get(payload, "username")
       userIP = Map.get(payload, "userIP")
@@ -254,3 +255,7 @@ end
 
 
 
+=======
+  
+end
+>>>>>>> Stashed changes

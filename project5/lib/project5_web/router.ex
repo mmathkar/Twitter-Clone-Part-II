@@ -20,7 +20,7 @@ defmodule Project5Web.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Project5Web do
-  #   pipe_through :api
-  # end
+  scope "/api", Project5Web do
+    pipe_through :api
+  end
 end
