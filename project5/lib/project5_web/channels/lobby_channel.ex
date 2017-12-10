@@ -6,8 +6,8 @@ defmodule Chatroom.LobbyChannel do
   end
 
   def handle_in("subscribeTo", payload, socket) do
-    username = Map.get(payload, "message")
-    selfId = Map.get(payload, "name")
+    username = Map.get(payload, "username")
+    selfId = Map.get(payload, "selfId")
     mapSet =
       if :ets.lookup(:followersTable, username) == [] do
           MapSet.new
@@ -18,7 +18,7 @@ defmodule Chatroom.LobbyChannel do
 
       mapSet = MapSet.put(mapSet, selfId)
 
-      :ets.insert(:followersTable, {username, mapSet})ç
+      :ets.insert(:followersTable, {username, mapSet})
 
       mapSet2 = 
       if :ets.lookup(:followsTable, selfId) == [] do

@@ -61,19 +61,20 @@ socket.connect()
 
   let channel = socket.channel("lobby", {});
   let list    = $('#message-list');
-  let message = $('#message');
-  let name    = $('#name');
+  let subs_list  = $('#subscriber-list');
+  let message = $('#username');
+  let name    = $('#selfId');
   
   message.on('keypress', event => {
     if (event.keyCode == 13) {
-      channel.push('subscribeTo', { name: name.val(), message: message.val() });
+      channel.push('subscribeTo', { selfId: name.val(), username: message.val() });
       message.val('');
     }
   });
   
   channel.on('subscribeTo', payload => {
-    list.append(`<b>${payload.name || 'Anonymous'}:</b> ${payload.message}<br>`);
-    list.prop({scrollTop: list.prop("scrollHeight")});
+    list.append(`<b>${payload.selfId || 'Anonymous'}:</b> ${payload.username}<br>`);
+    list.prop({scrollTop: subs_list.prop("scrollHeight")});
   });
   
   channel.join()
